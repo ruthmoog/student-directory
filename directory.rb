@@ -32,9 +32,11 @@ def print_header
 end
 
 def print(students)
-  students.each_with_index do |student, index| 
-    puts "#{index + 1}. #{student[:name]} \
-    (#{student[:cohort]} cohort)"
+  students.each_with_index do |student, index|
+    if student[:name][0] == "B"
+      puts "#{index + 1}. #{student[:name]} \
+      (#{student[:cohort]} cohort)"
+    end
   end
 end
 
