@@ -19,21 +19,25 @@ COHORTS = ["March", "April", "June", "November"]
 
 def get_more_data
   puts "Cohort:"
-  cohort = gets.chomp
-  if cohort == ""
-    cohort = Time.now.strftime("%B")
-  end
-  until COHORTS.include? cohort
-    puts "Cohort '#{cohort}' not valid. Make sure to enter full month name eg 'June':"
-    puts "Active cohorts: #{COHORTS.join(", ")}"
-    cohort = gets.chomp
-  end
-  cohort.capitalize.to_sym
+  unparsed_cohort = gets.chomp
+  cohort = parse_cohort_input(unparsed_cohort)
   puts "Nemisis:"
   nemisis = gets.chomp.downcase.to_sym
   puts "Favourite colour:"
   color = gets.chomp.downcase.to_sym
   [cohort, nemisis, color]
+end
+
+def parse_cohort_input(input)
+  if input == ""
+    input = Time.now.strftime("%B")
+  end
+  until COHORTS.include? input
+    puts "Cohort '#{input}' not valid. Make sure to enter full month name eg 'June':"
+    puts "Active cohorts: #{COHORTS.join(", ")}"
+    input = gets.chomp
+  end
+  cohort = input.capitalize.to_sym
 end
 
 def print_header
