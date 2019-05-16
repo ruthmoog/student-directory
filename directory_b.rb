@@ -11,7 +11,6 @@ def input_students
     puts "Name:"
     name = gets.chomp
   end
-  puts students
   students
 end
 
@@ -24,15 +23,15 @@ def get_more_data
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-----"
+  puts "The students of Villains Academy".center(50)
+  puts "-----".center(50,'*^~±§±~^*')
 end
 
 def print(students)
   index = 0
   students.each_with_index do |student, index|
     index = students.index(student) + 1
-    puts "#{index}. #{student[:name]} \
+    puts "#{index}. #{student[:name].ljust(20)} \
     (#{student[:cohort]} cohort)"
   end
 end
