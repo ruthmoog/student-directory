@@ -5,16 +5,22 @@ def input_students
   puts "Name:"
   name = gets.chomp
   while !name.empty? do
-    puts "Nemisis:"
-    nemisis = gets.chomp
-    puts "Favourite colour:"
-    color = gets.chomp
-    students << {name: name, cohort: :november, nemisis: nemisis, color: color}
+    student_info = get_more_data
+    students << {name: name, cohort: :november, nemisis: student_info[0], color: student_info[1]}
     puts "Now we have #{students.count} students"
     puts "Name:"
     name = gets.chomp
   end
+  puts students
   students
+end
+
+def get_more_data
+  puts "Nemisis:"
+  nemisis = gets.chomp
+  puts "Favourite colour:"
+  color = gets.chomp
+  [nemisis, color]
 end
 
 def print_header
