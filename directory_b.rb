@@ -63,7 +63,10 @@ def print_footer(students)
 end
 
 students = input_students
-print_header
-print(students)
-puts
+if students.count > 0
+  print_header
+  print(students)
+  puts
+end
 print_footer(students)
+
