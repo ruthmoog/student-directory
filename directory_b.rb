@@ -1,20 +1,18 @@
 COHORTS = ["March", "April", "May", "June", "November"]
+@students = []
 
 def input_students
   puts "Please enter the names of the students & their data"
   puts "To finish, just hit return twice"
-  students = []
   puts "Name:"
   name = gets.strip
   while !name.empty? do
     student_info = get_more_data
-    students << {name: name, cohort: student_info[0], nemisis: student_info[1], color: student_info[2]}
-    puts "Now we have #{students.count} students"
+    @students << {name: name, cohort: student_info[0], nemisis: student_info[1], color: student_info[2]}
+    puts "Now we have #{@students.count} students"
     puts "Name:"
     name = gets.strip
   end
-  puts student_info
-  students
 end
 
 def get_more_data
@@ -45,9 +43,9 @@ def print_header
   puts "-----".center(50,'*^~±§±~^*')
 end
 
-def print(students)
+def print_student_list
   grouped_students = {}
-  students.each do |element|
+  @students.each do |element|
     if !grouped_students.include? element[:cohort]
       grouped_students.store(element[:cohort], [])
     end
@@ -60,19 +58,48 @@ def print(students)
   end
 end
 
-def print_footer(students)
-  if students.count == 1
-    puts "Overall, we have #{students.count} great student."
+def print_footer
+  if @students.count == 1
+    puts "Overall, we have #{@students.count} great student."
   else
-    puts "Overall, we have #{students.count} great students."
+    puts "Overall, we have #{@students.count} great students."
   end
 end
 
-students = input_students
-if students.count > 0
-  print_header
-  print(students)
-  puts
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit"
 end
-print_footer(students)
 
+
+def show_students
+  if @students.count > 0
+    print_header
+    print_student_list
+    puts
+  end
+  print_footer
+end
+
+def process(selection)
+  case selection
+    when "1"
+      input_students
+    when "2"
+      show_students
+    when "9"
+      exit
+    else
+      puts "I don't know what you meant, try again"
+  end
+end
+
+def interactive_menu
+  loop do
+    print_menu
+    process(gets.chomp)
+  end
+end
+
+interactive_menu
