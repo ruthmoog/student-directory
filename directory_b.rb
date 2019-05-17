@@ -46,12 +46,17 @@ def print_header
 end
 
 def print(students)
-  counter = 1
-  until counter > students.count
-    index = counter - 1
-    puts "#{counter}. #{students[index][:name].ljust(20)} \
-    (#{students[index][:cohort]} cohort)"
-    counter += 1
+  grouped_students = {}
+  students.each do |element|
+    if !grouped_students.include? element[:cohort]
+      grouped_students.store(element[:cohort], [])
+    end
+    grouped_students[element[:cohort]] << element[:name]
+  end
+  grouped_students.each do |cohort, name|
+    puts cohort
+    puts name
+    puts
   end
 end
 
