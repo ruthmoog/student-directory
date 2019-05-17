@@ -1,4 +1,4 @@
-COHORTS = ["March", "April", "June", "November"]
+COHORTS = ["March", "April", "May", "June", "November"]
 
 def input_students
   puts "Please enter the names of the students & their data"
@@ -46,11 +46,12 @@ def print_header
 end
 
 def print(students)
-  index = 0
-  students.each_with_index do |student, index|
-    index = students.index(student) + 1
-    puts "#{index}. #{student[:name].ljust(20)} \
-    (#{student[:cohort]} cohort)"
+  counter = 1
+  until counter > students.count
+    index = counter - 1
+    puts "#{counter}. #{students[index][:name].ljust(20)} \
+    (#{students[index][:cohort]} cohort)"
+    counter += 1
   end
 end
 
