@@ -1,3 +1,5 @@
+COHORTS = ["March", "April", "June", "November"]
+
 def input_students
   puts "Please enter the names of the students & their data"
   puts "To finish, just hit return twice"
@@ -14,8 +16,6 @@ def input_students
   puts student_info
   students
 end
-
-COHORTS = ["March", "April", "June", "November"]
 
 def get_more_data
   puts "Cohort:"
