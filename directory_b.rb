@@ -5,24 +5,24 @@ def input_students
   puts "Please enter the names of the students & their data"
   puts "To finish, just hit return twice"
   puts "Name:"
-  name = gets.strip
+  name = STDIN.gets.strip
   while !name.empty? do
     student_info = get_more_data
     @students << {name: name, cohort: student_info[0], nemisis: student_info[1], color: student_info[2]}
     puts "Now we have #{@students.count} students"
     puts "Name:"
-    name = gets.strip
+    name = STDIN.gets.strip
   end
 end
 
 def get_more_data
   puts "Cohort:"
-  unparsed_cohort = gets.strip
+  unparsed_cohort = STDIN.gets.strip
   cohort = parse_cohort_input(unparsed_cohort)
   puts "Nemisis:"
-  nemisis = gets.strip.downcase.to_sym
+  nemisis = STDIN.gets.strip.downcase.to_sym
   puts "Favourite colour:"
-  color = gets.strip.downcase.to_sym
+  color = STDIN.gets.strip.downcase.to_sym
   [cohort, nemisis, color]
 end
 
@@ -33,7 +33,7 @@ def parse_cohort_input(input)
   until COHORTS.include? input
     puts "Cohort '#{input}' not valid. Make sure to enter full month name eg 'June':"
     puts "Active cohorts: #{COHORTS.join(", ")}"
-    input = gets.strip
+    input = STDIN.gets.strip
   end
   cohort = input.capitalize.to_sym
 end
@@ -93,13 +93,25 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
+end
+
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
 end
 
 def process(selection)
@@ -122,8 +134,9 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
+try_load_students
 interactive_menu
