@@ -21,12 +21,13 @@ def process(selection)
     input_students
   when "2"
     show_students
-  when "9"
-    exit # this will cause the program to terminate
   when "3"
     save_students
+    puts "Number of students saved to the file 'students.csv': #{@students.count}."
   when "4"
     load_students
+  when "9"
+    exit # this will cause the program to terminate
   else
     puts "I don't know what you meant, try again"
   end
