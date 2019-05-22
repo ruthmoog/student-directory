@@ -86,12 +86,16 @@ def save_students
 end
 
 def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
-    add_student_to_list(name, cohort.to_sym)
+  if File.exists?(filename)
+    file = File.open(filename, "r")
+    file.readlines.each do |line|
+    name, cohort = line.chomp.split(',')
+      add_student_to_list(name, cohort.to_sym)
+    end
+    file.close
+  else
+    puts "Unable to load students (#{filename} does not exist)"
   end
-  file.close
 end
 
 def try_load_students
@@ -102,9 +106,6 @@ def try_load_students
   if File.exists?(filename) # if it exists
     load_students(filename)
      puts "Loaded #{@students.count} from #{filename}"
-  else # if it doesn't exist
-    puts "Sorry, #{filename} doesn't exist."
-    exit # quit the program
   end
 end
 
