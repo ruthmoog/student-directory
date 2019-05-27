@@ -26,7 +26,8 @@ def process(selection)
   when "4"
     load_students
   when "9"
-    exit # this will cause the program to terminate
+    puts "Goodbye!"
+    exit
   else
     puts "I don't know what you meant, try again"
   end
