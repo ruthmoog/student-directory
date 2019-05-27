@@ -1,3 +1,5 @@
+require 'csv'
+
 @students = [] # an empty array accessible to all methods
 
 def print_menu
@@ -103,9 +105,10 @@ end
 def load_students(filename = retrieve_filename)
   if File.exists?(filename)
     File.open(filename, "r") do |file|
-      file.readlines.each do |line|
-      name, cohort = line.chomp.split(',')
-      add_student_to_list(name, cohort.to_sym)
+      CSV.foreach(filename) do |row|
+        name = row[0] 
+        cohort = row[1].to_sym
+        add_student_to_list(name, cohort)
       end
     end
     puts "Students were loaded"
