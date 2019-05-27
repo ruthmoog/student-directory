@@ -79,16 +79,17 @@ def retrieve_filename
 end
 
 def save_students
-    filename = retrieve_filename
-  file = File.open(filename, "w")  # open the file for writing
-  @students.each do |student|   # iterate over the array of students
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  filename = retrieve_filename
+  File.open(filename, "w") do |file|# open the file for writing
+    @students.each do |student|   # iterate over the array of students
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
-  file.close
   puts "Number of students saved to file: #{@students.count}."
 end
+
 
 def try_load_students
   if ARGV.first != nil
@@ -101,12 +102,12 @@ end
 
 def load_students(filename = retrieve_filename)
   if File.exists?(filename)
-    file = File.open(filename, "r")
-    file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
+    File.open(filename, "r") do |file|
+      file.readlines.each do |line|
+      name, cohort = line.chomp.split(',')
       add_student_to_list(name, cohort.to_sym)
+      end
     end
-    file.close
     puts "Students were loaded"
   else
     puts "Unable to load students (#{filename} does not exist)"
