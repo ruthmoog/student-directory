@@ -4,8 +4,8 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to file"
-  puts "4. Load the list from students.csv"
-  puts "9. Exit" # 9 because we'll be adding more items
+  puts "4. Load the list from file"
+  puts "9. Exit"
 end
 
 def interactive_menu
@@ -23,7 +23,6 @@ def process(selection)
     show_students
   when "3"
     save_students
-    puts "Number of students saved to file: #{@students.count}."
   when "4"
     load_students
   when "9"
@@ -73,18 +72,21 @@ def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
 
-def save_students
+def retrieve_filename
   puts "Enter a file name (eg. 'students.csv'):"
-  users_filename = gets.chomp
-  # open the file for writing
-  file = File.open(users_filename, "w")
-  # iterate over the array of students
-  @students.each do |student|
+  STDIN.gets.chomp
+end
+
+def save_students
+    filename = retrieve_filename
+  file = File.open(filename, "w")  # open the file for writing
+  @students.each do |student|   # iterate over the array of students
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
   file.close
+  puts "Number of students saved to file: #{@students.count}."
 end
 
 def try_load_students
@@ -96,7 +98,7 @@ def try_load_students
   load_students(filename)
 end
 
-def load_students(filename = "students.csv")
+def load_students(filename = retrieve_filename)
   if File.exists?(filename)
     file = File.open(filename, "r")
     file.readlines.each do |line|
